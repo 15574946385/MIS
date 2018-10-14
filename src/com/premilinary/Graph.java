@@ -1,6 +1,7 @@
 package com.premilinary;
 
-import java.util.*;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Graph {
 
@@ -79,7 +80,4 @@ public class Graph {
         return vertexNum;
     }
 
-    public int getEdgeNum(){
-        return edgeNum;
-    }
 }

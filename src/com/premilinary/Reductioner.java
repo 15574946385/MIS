@@ -11,7 +11,7 @@ public class Reductioner {
         this.head=graph.getHead();
     }
 
-    //处理一度结点
+    //删除一度结点
     public void DegOneReduction(){
         for(int i=0;i<graph.getVertexNum();i++){
             Set<Integer> set=head[i].adjacent;
@@ -40,6 +40,7 @@ public class Reductioner {
         }
     }
 
+    @Deprecated
     public int sameNeiborEstimate(){
         int sum=0;
         HashMap<Integer,Integer> map=new HashMap<>();
@@ -50,7 +51,6 @@ public class Reductioner {
                 for(Integer value:set){
                     tmp+=value;
                 }
-//                System.out.println(sum);
                 if(map.get(tmp)!=null) sum++;
                 else map.put(tmp,i);
             }
@@ -59,6 +59,7 @@ public class Reductioner {
     }
 
     //寻找邻居完全相同
+    @Deprecated
     public Set<Integer> seekToCombine(){
         Set<Integer> res=new TreeSet<>();
         for(int i=0;i<graph.getVertexNum();i++){
