@@ -7,11 +7,11 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * @author gujiewei
- * @create 2018/10/10
- * @desc  experiment subject: 点带权无向图。
+ *  gujiewei
+ *  2018/10/10
+ *   experiment subject: 点带权无向图。
  **/
-public class PhaseTwoReduction {
+public class PhaseTwo {
     public static void main(String[] args){
         int vertexNum=200000;
         Graph graph = new Graph(vertexNum);
