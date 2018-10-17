@@ -9,5 +9,5 @@ public class Vertex {
      */
     public Set adjacent;
 
-    public int weight;
+    public int weight=0;
 }

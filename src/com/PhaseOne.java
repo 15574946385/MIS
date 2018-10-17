@@ -1,11 +1,17 @@
-package com.premilinary;
+package com;
+
+
+import com.premilinary.Graph;
+import com.premilinary.Reductioner;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import javax.swing.*;
 
 public class PhaseOne {
     public static void main(String[] args){
+        JOptionPane jOptionPane=new JOptionPane();
         Graph graph=new Graph(55000);
 //        graph.setEdge(0,2);
 //        graph.setEdge(0,3);

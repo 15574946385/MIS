@@ -60,15 +60,21 @@ public class Graph {
     }
 
     //删除一个点
-    public void delDegOneVer(int id){
+    public void delVer(int id){
         Set<Integer> set=head[id].adjacent;
-        if(set==null) return ;
+        if(set==null) {
+            head[id].weight=0;
+            return ;
+        }
         else{
             for(Integer nei:set){
                 head[nei].adjacent.remove(id);
-                if(head[nei].adjacent.size()==0) head[nei].adjacent=null;
+                if(head[nei].adjacent.size()==0){
+                    head[nei].adjacent=null;
+                }
             }
             head[id].adjacent=null;
+            head[id].weight=0;
         }
     }
 

@@ -1,4 +1,8 @@
-package com.premilinary;
+package com;
+
+import com.premilinary.Graph;
+import com.premilinary.Vertex;
+import com.reduction.Reducer;
 
 import java.io.*;
 import java.util.*;
@@ -10,18 +14,23 @@ import java.util.*;
  **/
 public class PhaseTwo {
     public static void main(String[] args){
-        int vertexNum=200000;
+        //vertexNum---图最大点编号  vertexSum----图实际点个数
+
+        int vertexNum=1200000;
         String dirPath="C:\\Users\\DearYou\\Desktop\\dataset\\tmp";
         File[] fileList=new File(dirPath).listFiles();
 
         for(int k=0;k<fileList.length;k++){
-            System.out.println(fileList[k].getName());
+            String fileName=fileList[k].getName();
+            System.out.println(fileName);
+            String tag;
+            if(fileName.endsWith(".csv")) tag=",";
+            else tag="\\s+";
             Graph graph = new Graph(vertexNum);
             Vertex[] head=graph.getHead();
             int vertexSum=0;
             try(BufferedReader br=new BufferedReader(new FileReader(fileList[k].getAbsolutePath()))){
                 String line;
-                String tag=",";
                 //读取所有边  并且为每个新出现的点附一个新的权值。
                 while((line=br.readLine())!=null){
                     String[] content=line.split(tag);
@@ -46,29 +55,18 @@ public class PhaseTwo {
                 e.printStackTrace();
             }
 
-            //计算出符合条件的点的个数 ，并且删除这些点
-            int  index=1;
-            while(true){
-                int count=0;
-                for (int i = 0; i <vertexNum; i++) {
-                    Set<Integer> set=head[i].adjacent;
-                    if(set!=null){
-                        int sum=0;
-                        for (Integer value: set){
-                            sum+=head[value].weight;
-                        }
-                        if(sum<=head[i].weight) {
-                            count++;
-                            graph.delDegOneVer(i);
-                        }
-                    }
-                }
-                if(count==0) break;
-                System.out.println("第"+index+"轮删除"+count+"个结点。");
-                System.out.println("此轮一共"+vertexSum+"个结点。");
-                vertexSum-=count;
-                index++;
-            }
+            //
+            Reducer reducer=new Reducer(graph);
+            reducer.setVertexSum(vertexSum,vertexNum);
+
+            //singleVertex 邻居无边的迭代删除
+            reducer.singleVerNoEdge();
+
+            reducer.count();
+            //邻居内一条边
+
+
+
 
             //寻找邻居完全相同的子图
             HashMap<String,ArrayList<Integer>> map=new HashMap<>();
@@ -76,7 +74,6 @@ public class PhaseTwo {
                 Set<Integer> set=head[i].adjacent;
                 if(set!=null){
                     String tmp=set.toString();
-
                     if(!map.containsKey(tmp)){
                         map.put(tmp,new ArrayList<Integer>());
                     }
@@ -85,20 +82,15 @@ public class PhaseTwo {
             }
 
             int sameNeiClass=0;
-            int sameNeiAllVer=0;
             Iterator<Map.Entry<String,ArrayList<Integer>>> iter=map.entrySet().iterator();
             while(iter.hasNext()){
                 Map.Entry<String, ArrayList<Integer>> e = iter.next();
                 if(e.getValue().size()>1){
                     sameNeiClass++;
-                    sameNeiAllVer+=e.getValue().size();
                 }
             }
             System.out.println(sameNeiClass);
-            System.out.println(sameNeiAllVer);
-
             System.out.println();
         }
-
     }
 }
