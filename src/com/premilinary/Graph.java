@@ -1,7 +1,7 @@
 package com.premilinary;
 
+import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class Graph {
 
@@ -40,7 +40,7 @@ public class Graph {
 
     public void setEdgeHelper(int fromNode,int toNode){
         if(head[fromNode].adjacent==null){
-            head[fromNode].adjacent=new TreeSet<Integer>();
+            head[fromNode].adjacent=new HashSet<Integer>();
         }
         head[fromNode].adjacent.add(toNode);
     }

@@ -41,11 +41,13 @@ public class PhaseTwo {
                     //对图中点进行随机赋值
                     Random random=new Random();
                     if(head[from].weight==0){
-                        head[from].weight= random.nextInt(100)+1;
+                        head[from].weight= Integer.parseInt(content[2]);
+//                        head[from].weight= random.nextInt(100)+1;
                         vertexSum++;
                     }
                     if(head[to].weight==0) {
-                        head[to].weight= random.nextInt(100)+1;
+                        head[to].weight= Integer.parseInt(content[3]);
+//                        head[to].weight= random.nextInt(100)+1;
                         vertexSum++;
                     }
                 }
@@ -55,42 +57,46 @@ public class PhaseTwo {
                 e.printStackTrace();
             }
 
+            System.out.println("一共"+vertexSum+"个结点");
             //
             Reducer reducer=new Reducer(graph);
             reducer.setVertexSum(vertexSum,vertexNum);
 
             //singleVertex 邻居无边的迭代删除
-            reducer.singleVerNoEdge();
+            System.out.println("对于该点权 > 邻居点权和  的迭代删除开始");
+            int count1=reducer.singleVerNoEdge();
+            System.out.println("此次迭代一共删除了"+count1+"个结点");
 
-            reducer.count();
-            //邻居内一条边
-
+            System.out.println("\n对于邻居存在一条边的情况的迭代删除开始");
+            //singleVertex 邻居内一条边迭代删除
+            int count2=reducer.singleVerOneEdge();
+            System.out.println("此次迭代一共删除了"+count2+"个结点");
 
 
 
             //寻找邻居完全相同的子图
-            HashMap<String,ArrayList<Integer>> map=new HashMap<>();
-            for(int i=0;i<vertexNum;i++){
-                Set<Integer> set=head[i].adjacent;
-                if(set!=null){
-                    String tmp=set.toString();
-                    if(!map.containsKey(tmp)){
-                        map.put(tmp,new ArrayList<Integer>());
-                    }
-                    map.get(tmp).add(i);
-                }
-            }
-
-            int sameNeiClass=0;
-            Iterator<Map.Entry<String,ArrayList<Integer>>> iter=map.entrySet().iterator();
-            while(iter.hasNext()){
-                Map.Entry<String, ArrayList<Integer>> e = iter.next();
-                if(e.getValue().size()>1){
-                    sameNeiClass++;
-                }
-            }
-            System.out.println(sameNeiClass);
-            System.out.println();
+//            HashMap<String,ArrayList<Integer>> map=new HashMap<>();
+//            for(int i=0;i<vertexNum;i++){
+//                Set<Integer> set=head[i].adjacent;
+//                if(set!=null){
+//                    String tmp=set.toString();
+//                    if(!map.containsKey(tmp)){
+//                        map.put(tmp,new ArrayList<Integer>());
+//                    }
+//                    map.get(tmp).add(i);
+//                }
+//            }
+//
+//            int sameNeiClass=0;
+//            Iterator<Map.Entry<String,ArrayList<Integer>>> iter=map.entrySet().iterator();
+//            while(iter.hasNext()){
+//                Map.Entry<String, ArrayList<Integer>> e = iter.next();
+//                if(e.getValue().size()>1){
+//                    sameNeiClass++;
+//                }
+//            }
+//            System.out.println(sameNeiClass);
+//            System.out.println();
         }
     }
 }
