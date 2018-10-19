@@ -3,7 +3,8 @@ package com.reduction;
 import com.graph.Graph;
 import com.graph.Vertex;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author gujiewei
@@ -114,11 +115,11 @@ public class Reducer {
             int count=0;
             loop:for (int i = 0; i < vertexNum; i++) {
                 Set<Integer> set=head[i].adjacent;
+
                 int weightSum=0;
                 if(set!=null){
                     int edgeCount=0;   //这个变量用来对边计数
                     //遍历父点邻居
-                    int weight=0;
                     int[] list=new int[4];int index=0;
                     for (Integer nei: set){
                         Set<Integer> set1=head[nei].adjacent;
@@ -133,13 +134,13 @@ public class Reducer {
                                 }
                                 flag=false;
                             }
-
                         }
                         if(flag) weightSum+=head[nei].weight;
                     }
-                    weightSum+=twoEdge(list);
-                    count+=delVerAndNei(weightSum,i);
-
+                    if(edgeCount==2){
+                        weightSum+=twoEdge(list);
+                        count+=delVerAndNei(weightSum,i);
+                    }
                 }
                 else if(set==null && head[i].weight!=0){
                     count++;
@@ -162,26 +163,21 @@ public class Reducer {
     public int twoEdge(int[] list){
         //四个数字找到重复的id，这个id就是2条边的中间结点
         HashSet<Integer> set=new HashSet<>();
-        int weight1=head[list[0]].weight;
-        int weight2=head[list[1]].weight;
-        int weight3=head[list[2]].weight;
-        int weight4=head[list[3]].weight;
 
-        int flag=-1;int weight=0;
-        for(int i=0;i<3;i++){
+        int weightSum=0;
+        int flag=-1;
+        for(int i=0;i<list.length;i++){
+            weightSum+=head[list[i]].weight;
             if(set.contains(list[i])){
                 flag=list[i];
-                int temp=weight1+weight2+weight3+weight4-2*head[list[i]].weight;
-                weight=temp > head[list[i]].weight ? temp:head[list[i]].weight;
             }
             set.add(list[i]);
         }
-        if(flag==-1) {
-            int temp1 = Math.max(weight1, weight2);
-            int temp2 = Math.max(weight3, weight4);
-            return temp1 + temp2;
+        if(flag!=-1){
+            weightSum-= 2*head[flag].weight;
+            return Math.max(weightSum,head[flag].weight);
         }
-        return weight;
+        return Math.max(head[list[0]].weight,head[list[1]].weight)+Math.max(head[list[2]].weight,head[list[3]].weight);
     }
 
     public int delVerAndNei(int weight,int id){
@@ -197,18 +193,4 @@ public class Reducer {
         }
         return count;
     }
-//    public int twoEdge(Set<Integer> list){
-//        int weight=0;
-//        if(list.size()==4){
-//            int sum=0;
-//            for(int i=0;i<4;i++){
-//                sum+=head[list.get(i)].weight;
-//            }
-//        }
-//        return -1;
-//    }
-
-//    public int threeEdge(ArrayList<Integer> list){
-//
-//    }
 }
