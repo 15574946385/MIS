@@ -1,7 +1,7 @@
 package com;
 
-import com.premilinary.Graph;
-import com.premilinary.Vertex;
+import com.graph.Graph;
+import com.graph.Vertex;
 import com.reduction.Reducer;
 
 import java.io.*;
@@ -17,6 +17,7 @@ public class PhaseTwo {
         //vertexNum---图最大点编号  vertexSum----图实际点个数
 
         int vertexNum=1200000;
+//        String dirPath="C:\\Users\\DearYou\\Desktop\\dataset\\debug";
         String dirPath="C:\\Users\\DearYou\\Desktop\\dataset\\tmp";
         File[] fileList=new File(dirPath).listFiles();
 
@@ -41,13 +42,13 @@ public class PhaseTwo {
                     //对图中点进行随机赋值
                     Random random=new Random();
                     if(head[from].weight==0){
-                        head[from].weight= Integer.parseInt(content[2]);
-//                        head[from].weight= random.nextInt(100)+1;
+//                        head[from].weight= Integer.parseInt(content[2]);
+                        head[from].weight= random.nextInt(100)+1;
                         vertexSum++;
                     }
                     if(head[to].weight==0) {
-                        head[to].weight= Integer.parseInt(content[3]);
-//                        head[to].weight= random.nextInt(100)+1;
+//                        head[to].weight= Integer.parseInt(content[3]);
+                        head[to].weight= random.nextInt(100)+1;
                         vertexSum++;
                     }
                 }
@@ -57,21 +58,25 @@ public class PhaseTwo {
                 e.printStackTrace();
             }
 
-            System.out.println("一共"+vertexSum+"个结点");
             //
+            System.out.println("一共"+vertexSum+"个结点");
             Reducer reducer=new Reducer(graph);
-            reducer.setVertexSum(vertexSum,vertexNum);
+            reducer.setVertexSum(vertexNum);
 
             //singleVertex 邻居无边的迭代删除
             System.out.println("对于该点权 > 邻居点权和  的迭代删除开始");
-            int count1=reducer.singleVerNoEdge();
-            System.out.println("此次迭代一共删除了"+count1+"个结点");
+            int count1=reducer.singleVerHeavier();
+            System.out.println("此次迭代一共删除了"+count1+"个结点\n");
 
-            System.out.println("\n对于邻居存在一条边的情况的迭代删除开始");
             //singleVertex 邻居内一条边迭代删除
+            System.out.println("对于邻居存在一条边的情况的迭代删除开始");
             int count2=reducer.singleVerOneEdge();
-            System.out.println("此次迭代一共删除了"+count2+"个结点");
+            System.out.println("此次迭代一共删除了"+count2+"个结点\n");
 
+            //singleVertex 邻居内两条边迭代删除
+            System.out.println("\n对于邻居存在两条边的情况的迭代删除开始");
+            int count3=reducer.singleVerTwoEdge();
+            System.out.println("此次迭代一共删除了"+count3+"个结点\n");
 
 
             //寻找邻居完全相同的子图
@@ -97,6 +102,7 @@ public class PhaseTwo {
 //            }
 //            System.out.println(sameNeiClass);
 //            System.out.println();
+            System.out.println("------------------------------------------------------------");
         }
     }
 }

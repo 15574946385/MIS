@@ -1,8 +1,8 @@
 package com;
 
 
-import com.premilinary.Graph;
-import com.premilinary.Reductioner;
+import com.graph.Graph;
+import com.graph.Reductioner;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
